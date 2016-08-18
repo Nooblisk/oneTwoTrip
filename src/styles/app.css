@@ -1,0 +1,15 @@
+.flight {
+    background: #FFF;
+    border: 1px solid rgba(0, 89, 181, 0.82);
+    width: 600px;
+    margin: 0 0 5px;
+    box-shadow: 2px 2px 5px -1px rgb(0, 81, 202);
+    padding: 3px 5px;
+}
+.hiddenflight {
+    visibility:hidden
+}
+body {
+    padding-top: 25px;
+    background-color: #eee;
+}
