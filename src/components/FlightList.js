@@ -4,25 +4,43 @@
 import React, { Component } from 'react';
 import Set from 'Set';
 
+function findUniqueCarriers(a){
+    function uniq(b) {
+        var un = new Set(b);
+        return un.toArray();
+    }
+    var try1 = a.flights.map(opt => {
+        return opt.carrier;
+    })
+    return uniq(try1);
+}
+
+function parseDateString(date){
+    var time = new Date(date);
+    var parseDate = {};
+    parseDate.hours = time.getHours(),
+        parseDate.minutes = time.getMinutes(),
+        parseDate.date = time.getDate(),
+        parseDate.day = time.getDay(),
+        parseDate.month = time.getMonth(),
+        parseDate.summary = parseDate.hours +':'+parseDate.minutes
+
+    return parseDate;
+}
 
 class Flight extends Component {
 
     render() {
-        const { id, from, to, arrival, departure, carrier } = this.props
-        var time1 = function (arrival) {
-            var time = new Date(arrival);
-            return time.getHours() + ':' + time.getMinutes()
-        }
-        const wowTime = time1(arrival)
-        const wow2Time = time1(departure)
+        const {from, to, arrival, departure, carrier } = this.props
 
+        const objArrival = parseDateString(arrival);
+        const objDeparture = parseDateString(departure);
         return <div className='flight' id={carrier}>
-
-            <p>Рейс {id}</p>
-            <p>Из {from} в {to}</p>
-            <p>{wow2Time} - {wowTime}()</p>
             <p>авиакомпания {carrier}</p>
-
+            <p>Рейс</p>
+            <p>ТУДА, {objDeparture.date} {objDeparture.month}, {objDeparture.day}</p>
+            <p>{objDeparture.summary} - {objArrival.summary}({objArrival.date} {objArrival.day})</p>
+            <p>Из {from} в {to}</p>
         </div>
     }
 }
@@ -31,36 +49,21 @@ class Flight extends Component {
 class SelectBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: 'all'};
+        this.state = {value: this.props[0]};
     }
-
     onChange(e) {
         this.setState({
             value: e.target.value
         })
         this.props.setCarrier(e.target.value);
-        console.log('я выбрал : ' + e.target.value);
     }
 
     render() {
-        const {flights}=this.props
-
-        function uniq(a) {
-            var un = new Set(a);
-            return un.toArray();
-        }
-
-        var try1 = flights.flights.map(opt => {
-            return opt.carrier
-        })
-        console.log('try1 : ' + try1)
-        var uniqueCarriers = uniq(try1)
-        console.log('uniqueCarriers : ' + uniqueCarriers)
+        const {uniqueCarriers}=this.props
         return (
             <div className='form-group'>
                 <label htmlFor='select'>Выберите рейс для показа</label>
                 <select value={this.state.value} onChange={this.onChange.bind(this)} className='form-control'>
-                    <option value='all' key='all'>all</option>
                     {uniqueCarriers.map(option => {
                         return <option value={option} key={option}>{option}</option>
                     })}
@@ -75,9 +78,8 @@ export default class FlightList extends Component {
     render() {
         const { flights } = this.props
         const {setCarrier} = this.props
-        const show = flights.carrierToShow
         var flightslist = flights.flights.map(function (flight) {
-            if (show == flight.carrier || show == 'all') {
+            if (flights.carrierToShow === flight.carrier || flights.carrierToShow === 'all') {
                 return <Flight
                     key={flight.id}
                     from={flight.direction.from}
@@ -88,10 +90,11 @@ export default class FlightList extends Component {
                 />
             }
         })
-
+        var uniqueCarriers = findUniqueCarriers(flights);
+        uniqueCarriers.splice(0,0,'all');
         return (
             <div className='flightList'>
-                <SelectBox flights={flights} setCarrier={setCarrier}/>
+                <SelectBox uniqueCarriers={uniqueCarriers} setCarrier={setCarrier}/>
                 {flightslist}
             </div>)
     }
