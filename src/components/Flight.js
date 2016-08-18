@@ -1,25 +1,14 @@
 /**
  * Created by Nooblisk on 10.08.2016.
  */
-import React, { Component } from 'react'
-import Set from 'Set'
+import React, { Component } from 'react';
+import Set from 'Set';
 
 
-//const timeObj = function(time){
-//    var date = new Date(time);
-//    this.hours = function() {
-//     return   date.getHours();
-//    }
-//
-//    this.minutes = function(){
-//        return date.getMinutes();
-//    }
-//}
 class Flight extends Component {
 
     render() {
         const { id, from, to, arrival, departure, carrier } = this.props
-        //var day;
         var time1 = function (arrival) {
             var time = new Date(arrival);
             return time.getHours() + ':' + time.getMinutes()
@@ -37,19 +26,7 @@ class Flight extends Component {
         </div>
     }
 }
-//function onlyUnique(value, index, self) {
-//    return self.indexOf(value) === index;
-//}
 
-//const options = ['Select an Option', 'First Option', 'Second Option', 'Third Option']
-
-//
-//function uniq(a) {
-//    return Array.from(new Set(a));
-//}
-//var uniqueCarriers = uniq(flights.flights)
-//console.log(uniqueCarriers)
-//
 
 class SelectBox extends Component {
     constructor(props) {
@@ -93,19 +70,8 @@ class SelectBox extends Component {
         )
     }
 }
-//onCarrierBtnClick(e) {
-//    this.props.setCarrier(e.target.innerText);
-//    console.log('я нажал на кнопку : '+e.target.innerText)
-//}
-//<p>
-//    <button onClick={::this.onCarrierBtnClick}>all</button>
-//    <button onClick={::this.onCarrierBtnClick}>S7</button>
-//    <button onClick={::this.onCarrierBtnClick}>Aeroflot</button>
-//    <button onClick={::this.onCarrierBtnClick}>KLM</button>
-//</p>
+
 export default class FlightList extends Component {
-
-
     render() {
         const { flights } = this.props
         const {setCarrier} = this.props
@@ -126,9 +92,7 @@ export default class FlightList extends Component {
         return (
             <div className='flightList'>
                 <SelectBox flights={flights} setCarrier={setCarrier}/>
-
                 {flightslist}
-
             </div>)
     }
 }
