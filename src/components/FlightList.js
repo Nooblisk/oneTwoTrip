@@ -19,17 +19,16 @@ function findUniqueCarriers(a) {
 
 function parseDateString(date) {
     const time = new Date(date);
-    var parseDate = {};
     const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
     const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
-    parseDate.hours = time.getHours(),
-        parseDate.minutes = time.getMinutes(),
-        parseDate.date = time.getDate(),
-        parseDate.day = days[time.getDay()],  //день недели
-        parseDate.month = months[time.getMonth()],    //месяца
-        parseDate.summary = parseDate.hours + ':' + parseDate.minutes
 
-    return parseDate;
+    return {
+        hours: time.getHours(),
+        minutes: time.getMinutes(),
+        date: time.getDate(),
+        day: days[time.getDay()],  //день недели
+        month: months[time.getMonth()]   //месяца
+    };
 }
 
 class Flight extends Component {
@@ -42,7 +41,7 @@ class Flight extends Component {
         return <div className='flight' id={carrier}>
             <p>{carrier}</p>
             <p>ТУДА, {objDeparture.date} {objDeparture.month}, {objDeparture.day}</p>
-            <p>{objDeparture.summary} - {objArrival.summary}({objArrival.date} {objArrival.month})</p>
+            <p>{objDeparture.hours}:{objArrival.minutes} - {objArrival.hours}:{objDeparture.minutes}({objArrival.date} {objArrival.month})</p>
             <p>Из {from} в {to}</p>
         </div>
     }
@@ -80,8 +79,7 @@ class SelectBox extends Component {
 
 export default class FlightList extends Component {
     render() {
-        const { flights } = this.props
-        const {setCarrier} = this.props
+        const { flights, setCarrier } = this.props
         var flightslist = flights.flights.map(function (flight) {
             if (flights.carrierToShow === flight.carrier || flights.carrierToShow === 'all') {
                 return <Flight
