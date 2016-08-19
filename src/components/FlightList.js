@@ -27,7 +27,7 @@ function parseDateString(date) {
         minutes: time.getMinutes(),
         date: time.getDate(),
         day: days[time.getDay()],  //день недели
-        month: months[time.getMonth()]   //месяца
+        month: months[time.getMonth()],   //месяца
     };
 }
 
