@@ -4,26 +4,30 @@
 import React, { Component } from 'react';
 import Set from 'Set';
 
-function findUniqueCarriers(a){
+
+function findUniqueCarriers(a) {
     function uniq(b) {
-        var un = new Set(b);
+        const un = new Set(b);
         return un.toArray();
     }
-    var try1 = a.flights.map(opt => {
+
+    var carriers = a.flights.map(opt => {
         return opt.carrier;
     })
-    return uniq(try1);
+    return uniq(carriers);
 }
 
-function parseDateString(date){
-    var time = new Date(date);
+function parseDateString(date) {
+    const time = new Date(date);
     var parseDate = {};
+    const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+    const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
     parseDate.hours = time.getHours(),
         parseDate.minutes = time.getMinutes(),
         parseDate.date = time.getDate(),
-        parseDate.day = time.getDay(),
-        parseDate.month = time.getMonth(),
-        parseDate.summary = parseDate.hours +':'+parseDate.minutes
+        parseDate.day = days[time.getDay()],  //день недели
+        parseDate.month = months[time.getMonth()],    //месяца
+        parseDate.summary = parseDate.hours + ':' + parseDate.minutes
 
     return parseDate;
 }
@@ -36,10 +40,9 @@ class Flight extends Component {
         const objArrival = parseDateString(arrival);
         const objDeparture = parseDateString(departure);
         return <div className='flight' id={carrier}>
-            <p>авиакомпания {carrier}</p>
-            <p>Рейс</p>
+            <p>{carrier}</p>
             <p>ТУДА, {objDeparture.date} {objDeparture.month}, {objDeparture.day}</p>
-            <p>{objDeparture.summary} - {objArrival.summary}({objArrival.date} {objArrival.day})</p>
+            <p>{objDeparture.summary} - {objArrival.summary}({objArrival.date} {objArrival.month})</p>
             <p>Из {from} в {to}</p>
         </div>
     }
@@ -51,6 +54,7 @@ class SelectBox extends Component {
         super(props);
         this.state = {value: this.props[0]};
     }
+
     onChange(e) {
         this.setState({
             value: e.target.value
@@ -91,7 +95,7 @@ export default class FlightList extends Component {
             }
         })
         var uniqueCarriers = findUniqueCarriers(flights);
-        uniqueCarriers.splice(0,0,'all');
+        uniqueCarriers.splice(0, 0, 'all');
         return (
             <div className='flightList'>
                 <SelectBox uniqueCarriers={uniqueCarriers} setCarrier={setCarrier}/>

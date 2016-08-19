@@ -6,10 +6,9 @@
     box-shadow: 2px 2px 5px -1px rgb(0, 81, 202);
     padding: 3px 5px;
 }
-.hiddenflight {
-    visibility:hidden
-}
+
 body {
     padding-top: 25px;
-    background-color: #eee;
+    padding-left: 25px;
+    background-color: #EEE;
 }
