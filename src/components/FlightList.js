@@ -2,13 +2,12 @@
  * Created by Nooblisk on 10.08.2016.
  */
 import React, { Component } from 'react';
-import Set from 'Set';
 
 
 function findUniqueCarriers(a) {
     function uniq(b) {
-        const un = new Set(b);
-        return un.toArray();
+        const un = new Set(b);  // eslint-disable-line no-undef
+        return [...un]
     }
 
     var carriers = a.flights.map(opt => {
