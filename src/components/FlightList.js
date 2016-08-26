@@ -45,12 +45,10 @@ class Flight extends Component {
         </div>
     }
 }
-
-
+//this.state = {value: this.props[0]};
 class SelectBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: this.props[0]};
     }
 
     onChange(e) {
@@ -61,11 +59,11 @@ class SelectBox extends Component {
     }
 
     render() {
-        const {uniqueCarriers}=this.props
+        const {uniqueCarriers, value}=this.props
         return (
             <div className='form-group'>
                 <label htmlFor='select'>Выберите рейс для показа</label>
-                <select value={this.state.value} onChange={this.onChange.bind(this)} className='form-control'>
+                <select value={value} onChange={this.onChange.bind(this)} className='form-control'>
                     {uniqueCarriers.map(option => {
                         return <option value={option} key={option}>{option}</option>
                     })}
@@ -95,7 +93,7 @@ export default class FlightList extends Component {
         uniqueCarriers.splice(0, 0, 'all');
         return (
             <div className='flightList'>
-                <SelectBox uniqueCarriers={uniqueCarriers} setCarrier={setCarrier}/>
+                <SelectBox value={flights.carrierToShow} uniqueCarriers={uniqueCarriers} setCarrier={setCarrier}/>
                 {flightslist}
             </div>)
     }

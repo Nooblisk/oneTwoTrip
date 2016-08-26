@@ -6,6 +6,7 @@ var webpack = require('webpack');
 var NpmInstallPlugin = require('npm-install-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
+var WriteFilePlugin = require ('write-file-webpack-plugin');
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
@@ -22,7 +23,8 @@ module.exports = {
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new NpmInstallPlugin()
+        new NpmInstallPlugin(),
+        new WriteFilePlugin()
     ],
     module: {
         preLoaders: [
